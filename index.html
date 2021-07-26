@@ -7,147 +7,76 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<meta name="author" content="Dmitry Sharabin">
 
+	<link rel="stylesheet" href="./style.css">
+
 	<!-- Mavo -->
 	<link rel="stylesheet" href="./mavo/mavo.min.css">
 	<script src="./mavo/mavo.es5.min.js"></script>
 
 	<title>Конструктор локальных документов</title>
-
-	<!-- Стили -->
-	<style>
-		*,
-		*::before,
-		*::after {
-			box-sizing: border-box;
-		}
-
-		/* dt[title]::after {
-			content: "i";
-
-			display: inline-block;
-			width: 1em;
-			height: 1em;
-
-			position: relative;
-			top: -0.35em;
-
-			color: hsl(0, 0%, 40%);
-			background-color: hsl(50, 100%, 50%);
-
-			font-style: italic;
-
-			border: 1px hsl(50, 100%, 40%) solid;
-			border-radius: 50%;
-
-			cursor: help;
-		} */
-
-		/* button[mv-action*="delete($item)"] {
-			all: unset;
-
-			width: 1em;
-			height: 1em;
-
-			padding: 0.25em;
-
-			font-size: 0.75em;
-			font-weight: bold;
-			text-align: center;
-
-			border-radius: 50%;
-
-			color: white;
-			background-color: hsl(0, 100%, 30%);
-
-			cursor: pointer;
-		}
-
-		button[mv-action*="delete($item)"]:hover {
-			background-color: hsl(0, 100%, 40%);
-			color: white;
-		} */
-
-		/* article[property] {
-			display: flex;
-			flex-direction: row-reverse;
-			align-items: center;
-		}
-
-		article[property] button[mv-action*="delete($item)"] {
-			margin-right: 0.3em;
-		} */
-
-		.doc::after {
-			content: ".doc";
-		}
-
-		.pdf::after {
-			content: ".pdf";
-		}
-
-		.mv-ui[class*="mv-add-"]::before {
-			content: "+ ";
-		}
-
-		.mv-ui.mv-item-bar {
-			display: none;
-		}
-	</style>
 </head>
 
 <body>
 	<main mv-app="documents.local" mv-bar="with import export" mv-plugins="locale-ru" mv-mode="edit">
-		<article mv-multiple="document" mv-initial-items="0">
-			<dl>
-				<dt>Название документа в <b>Библиотеке документов</b></dt>
-				<dd property="name" aria-label="Название документа"></dd>
+		<h1>
+			📑 Локальные документы
+		</h1>
+		<article mv-multiple="document" class="[if(type = 'form', 'word', 'pdf')]">
+			<meta property="type" content="form" mv-mode="read">
 
-				<dt>Тип (документ Microsoft Word или PDF-файл)</dt>
-				<dd>
-					<select property="type">
-						<option value="form">*.doc</option>
-						<option value="example">*.pdf</option>
-					</select>
-				</dd>
+			<h2>
+				<span>[$index + 1]</span>
+				<div>
+					<img mv-action="set(type, 'form')" src="./assets/MS-Word-logo.svg" height="80"
+						alt="Логотип документа Microsoft Word" class="[if(type = 'example', 'disabled')]">
+					<img mv-action="set(type, 'example')" src="./assets/PDF-logo.svg" height="80" alt="Логотип документа PDF"
+						class="[if(type = 'form', 'disabled')]">
+					<meta property="template" datatype="boolean" mv-mode="read">
+					<div hidden="[type = 'example']" class="answer">
+						<span>Нужно автозаполнение?</span>
+						<b mv-action="set(template, true)" class="[if(template, 'chosen')]">Да</b>
+						<b mv-action="set(template, false)" class="[if(!template, 'chosen')]">Нет</b>
+					</div>
+					<div hidden="[type = 'form']" class="answer">
+						<table>
+							<thead>
+								<tr>
+									<th>Страниц</th>
+									<th>Скриншотов</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td><input property="__total_pages" type="number" min="1" value="1"></td>
+									<td><input property="__image_count" type="number" min="1" value="1"></td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				</div>
+				<p>
+					<span property="path" aria-label="Имя файла" class="[if(type = 'form', 'word', 'pdf')]"></span>
+				</p>
+			</h2>
 
-				<dt>Имя файла</dt>
-				<dd>
-					<span property="path" aria-label="Имя файла" mv-default="[name]"
-						class="[if(type = 'form', 'doc', 'pdf')]"></span>
-				</dd>
+			<h3 property="name" aria-label="Название документа — для Библиотеки документов" mv-default="[path]"></h3>
 
-				<dt mv-if="type = 'form'">
-					Размечен как шаблон (использует данные из ИРБ)?
-				</dt>
-				<dd mv-if="type = 'form'"><input type="checkbox" property="template"></dd>
+			<details open>
+				<summary>Выборы</summary>
+				<p mv-multiple="election_types" mv-editor="#elections" mv-default="5" mv-initial-items="0">
+				</p>
+				<button class="mv-add-election_types">Добавить</button>
+			</details>
 
-				<dt>
-					Для каких выборов подходит? <button class="mv-ui mv-add-election_types"></button>
-				</dt>
-				<dd mv-multiple="election_types" mv-editor="#elections" mv-default="5">
-					<button mv-action="delete($item)" title="Удалить выборы">✕</button>
-				</dd>
-
-				<dt>
-					К каким категориям относится? <button class="mv-ui mv-add-categories"></button>
-				</dt>
-				<dd mv-multiple="categories" mv-editor="#categories" mv-default="19">
-					<button mv-action="delete($item)" title="Удалить категорию">✕</button>
-				</dd>
-
-				<dt mv-if="type = 'example'">Количество подготовленных скриншотов страниц документа</dt>
-				<dd mv-if="type = 'example'">
-					<span property="__image_count" mv-default="1" mv-editor-type="number" mv-editor-min="1"></span>
-				</dd>
-
-				<dt mv-if="type = 'example'">Всего страниц в документе</dt>
-				<dd mv-if="type = 'example'">
-					<span property="__total_pages" mv-default="1" mv-editor-type="number" mv-editor-min="1"></span>
-				</dd>
-			</dl>
+			<details open>
+				<summary>Категории документов</summary>
+				<p mv-multiple="categories" mv-editor="#categories" mv-default="19" mv-initial-items="0">
+				</p>
+				<button class="mv-add-categories">Добавить</button>
+			</details>
 		</article>
 
-		<button class="mv-ui mv-add-document">Документ</button>
+		<button class="mv-ui mv-add-document">Добавить документ</button>
 	</main>
 
 	<!-- Справочник «Типы выборов» -->

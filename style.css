@@ -1,0 +1,292 @@
+*,
+*::before,
+*::after {
+	box-sizing: border-box;
+}
+
+html {
+	min-width: 350px;
+	max-width: 800px;
+	margin: 0 auto;
+
+	font-family: ui-sans-serif,
+		system-ui,
+		-apple-system,
+		BlinkMacSystemFont,
+		"Segoe UI",
+		Roboto,
+		"Helvetica Neue",
+		Arial,
+		"Noto Sans",
+		sans-serif,
+		"Apple Color Emoji",
+		"Segoe UI Emoji",
+		"Segoe UI Symbol",
+		"Noto Color Emoji";
+
+	color: hsl(215, 28%, 17%);
+	background-color: hsl(210, 20%, 98%);
+}
+
+article[property="document"] {
+	--color: hsl(var(--h), calc(var(--s) * 1%), calc(var(--l) * 1% + 20%));
+
+	padding: 0 2em 1em;
+	margin-top: 1em;
+
+	position: relative;
+	border: 5px solid var(--color);
+	border-radius: 0.5em;
+}
+
+article[property="document"].word {
+	--h: 217;
+	--s: 56;
+	--l: 25;
+}
+
+article[property="document"].pdf {
+	--h: 3;
+	--s: 100;
+	--l: 25;
+}
+
+h1,
+h2 {
+	font-weight: 200;
+}
+
+h1 {
+	font-size: 280%;
+	line-height: 1.35;
+}
+
+h1>span.library {
+	padding: 0.1em 0.3em;
+	color: white;
+	background-color: hsl(217, 56%, 35%);
+	font-weight: 300;
+}
+
+h3 {
+	font-size: 200%;
+	font-weight: 500;
+}
+
+h2>span {
+	position: absolute;
+
+	padding: 0.2em 0.3em;
+
+	top: 0;
+	right: 0;
+
+	font-size: 120%;
+
+	color: white;
+	background-color: var(--color);
+}
+
+h2>div {
+	display: flex;
+	align-items: center;
+	position: relative;
+}
+
+h2>div .answer {
+	order: 100;
+	margin-left: auto;
+}
+
+h2 .answer>b {
+	padding: 0.2em 0.3em;
+
+	border: 2px solid transparent;
+	border-radius: 0.3em;
+
+	font-weight: 200;
+	text-transform: uppercase;
+
+	cursor: default;
+}
+
+h2 .answer>b:first-of-type {
+	margin-left: 0.8em;
+}
+
+h2 .answer>b:not(.chosen):hover {
+	border-color: var(--color);
+
+	cursor: pointer;
+}
+
+h2 .answer>.chosen {
+	color: white;
+	background-color: var(--color);
+}
+
+h2 .answer>table {
+	border-spacing: 0.5em 0;
+}
+
+h2 .answer>table th {
+	text-transform: uppercase;
+
+	font-size: 75%;
+	font-weight: inherit;
+}
+
+h2 .answer>table td {
+	text-align: center;
+}
+
+h2 .answer>table td input[type="number"] {
+	width: 3em;
+
+	border: 1px solid lightgray;
+	border-radius: .2em;
+
+	color: gray;
+	font-size: 90%;
+}
+
+h2>p {
+	margin: 0;
+}
+
+img {
+	height: 3.5em;
+	transition: transform 100ms ease-out;
+}
+
+img.disabled:hover {
+	transform: scale(0.5);
+	transition: transform 150ms ease-in;
+	cursor: pointer;
+}
+
+img.disabled {
+	margin-left: -0.65em;
+	margin-top: 1.6em;
+
+	order: 2;
+
+	filter: opacity(0.7);
+	transform: scale(0.4);
+}
+
+span[property="path"]::after {
+	font-weight: 400;
+}
+
+span[property="path"].word::after {
+	content: ".doc";
+}
+
+span[property="path"].pdf::after {
+	content: ".pdf";
+}
+
+details+details {
+	margin-top: 0.7em;
+}
+
+details>p {
+	margin: 0;
+	margin-left: 1.5em;
+
+	display: flex;
+	align-items: center;
+
+	white-space: nowrap;
+
+	font-weight: 300;
+}
+
+details>p>select {
+	flex: 1;
+}
+
+summary {
+	font-size: 120%;
+	text-transform: uppercase;
+
+	font-weight: 200;
+
+	cursor: pointer;
+}
+
+summary::marker {
+	color: var(--color);
+}
+
+summary:hover {
+	color: var(--color);
+}
+
+button.mv-add-election_types,
+button.mv-add-categories {
+	margin: 1.5em;
+
+	font-size: inherit;
+}
+
+[mv-app] .mv-import,
+[mv-app] .mv-import {
+	font-size: inherit;
+}
+
+[mv-app] button.mv-add.mv-add-document {
+	display: block;
+	margin: 1.1em auto;
+	padding: 0.4em 0.6em;
+
+	border: 1px solid rgba(0, 0, 0, 0.05);
+	background: hsl(217, 56%, 35%);
+
+	color: white;
+	font-size: 120%;
+
+	border-radius: 0.2em;
+}
+
+[mv-app] button.mv-add.mv-add-document:hover {
+	background: hsl(217, 56%, 45%);
+}
+
+[mv-rel="election_types"].mv-item-bar.mv-ui,
+[mv-rel="categories"].mv-item-bar.mv-ui {
+	position: initial;
+}
+
+[mv-rel="election_types"].mv-item-bar.mv-ui button.mv-add,
+[mv-rel="categories"].mv-item-bar.mv-ui button.mv-add {
+	display: none;
+}
+
+[mv-rel="election_types"].mv-item-bar.mv-ui button.mv-delete,
+[mv-rel="categories"].mv-item-bar.mv-ui button.mv-delete {
+	border-radius: inherit;
+}
+
+[property]:not([property="document"])[mv-mode="edit"][mv-mode="edit"][mv-mode="edit"][mv-mode="edit"]:hover {
+	box-shadow: none !important;
+}
+
+[mv-app][mv-mode="edit"][mv-mode="edit"][mv-mode="edit"][mv-mode="edit"] .mv-editor {
+	padding: 0.2em 0.3em;
+
+	border: 1px solid transparent;
+	border-radius: 0.3em;
+}
+
+[mv-app][mv-mode="edit"][mv-mode="edit"][mv-mode="edit"][mv-mode="edit"] .mv-editor:focus,
+[mv-app][mv-mode="edit"][mv-mode="edit"][mv-mode="edit"][mv-mode="edit"] .mv-editor:hover {
+	box-shadow: none !important;
+	border-color: var(--color);
+}
+
+.mv-bar.mv-ui.mv-ui {
+	color: gray;
+	background-color: whitesmoke;
+}
