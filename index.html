@@ -110,8 +110,8 @@
 					const file = document.files[0];
 					document.template = file.template;
 
-					// Удаляем «path/» в начале и расширение (с точкой) в конце пути к файлу.
-					document.path = file.path.slice(5, -4);
+					// Удаляем «files/» в начале и расширение (с точкой) в конце пути к файлу.
+					document.path = file.path.slice(6, -4);
 
 					delete document.files;
 
@@ -132,7 +132,7 @@
 					document.keywords = [];
 					document.files = [{
 						id: 1,
-						path: `path/${document.path}.${document.type === "form" ? "doc" : "pdf"}`,
+						path: `files/${document.path}.${document.type === "form" ? "doc" : "pdf"}`,
 						template: document.type === "form" ? document.template : false,
 						rules: [{
 							then: "accept"
