@@ -28,6 +28,18 @@ html {
 	background-color: hsl(210, 20%, 98%);
 }
 
+header p {
+	color: hsl(215, 28%, 30%);
+
+	text-align: center;
+
+	font-size: 80%;
+}
+
+header p a {
+	color: inherit;
+}
+
 article[property="document"] {
 	--color: hsl(var(--h), calc(var(--s) * 1%), calc(var(--l) * 1% + 20%));
 
